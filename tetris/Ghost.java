@@ -81,15 +81,19 @@ public class Ghost{
         int oppositeColorRight;
         int ghostColorRight;
         int ghostColorLeft;
+        int backgroundColorLeft;
+        int backgroundColorRight;
         int detectedColorBlock = 1;
-        int ghostBase = (background.getHeight() - getPosY() - ghostBit.getHeight()
-                + block.getBlockHeight()) / block.getBlockHeight();
+        int ghostBase = 1;
         boolean transparencyRL;
         boolean transparencyGL;
         boolean transparencyBL;
         boolean transparencyRR;
         boolean transparencyGR;
         boolean transparencyBR;
+        int backgroundR;
+        int backgroundG;
+        int backgroundB;
 
         if(shape.getPosY() + shapeBit.getHeight() < getPosY() && getPosY() != 0) {
             for (int i = 1; i <= 39; i += 2) {
@@ -131,11 +135,19 @@ public class Ghost{
                 // <= because the bottom row must always be checked and ghostBase is at least 1
                 // each time
                 if ((i - balance) <= ghostBase) {
+                    //System.out.println(ghostBase);
                     ghostColorLeft = ghostBit.getPixel((block.getBlockWidth() / 2),
                             ghostBit.getHeight() - ((block.getBlockHeight() / 2) * ghostBase));
 
                     ghostColorRight = ghostBit.getPixel(ghostBit.getWidth() - (block.getBlockWidth() / 2),
                             ghostBit.getHeight() - ((block.getBlockHeight() / 2) * ghostBase));
+
+                    backgroundColorLeft = background.getPixel(getPosX() + (block.getBlockWidth() / 2),
+                            (getPosY() + ghostBit.getHeight()) - ((block.getBlockHeight() / 2) * ghostBase));
+
+                    backgroundColorRight = background.getPixel(
+                            getPosX() + ghostBit.getWidth() - (block.getBlockWidth() / 2),
+                            (getPosY() + ghostBit.getHeight()) - ((block.getBlockHeight() / 2) * ghostBase));
 
                     transparencyRL = Color.red(ghostColorLeft) != Color.TRANSPARENT;
                     transparencyGL = Color.green(ghostColorLeft) != Color.TRANSPARENT;
@@ -143,6 +155,33 @@ public class Ghost{
                     transparencyRR = Color.red(ghostColorRight) != Color.TRANSPARENT;
                     transparencyGR = Color.green(ghostColorRight) != Color.TRANSPARENT;
                     transparencyBR = Color.blue(ghostColorRight) != Color.TRANSPARENT;
+
+                    if(!transparencyRL && !transparencyGL && !transparencyBL){
+                        backgroundR = Color.red(backgroundColorLeft);
+                        backgroundG = Color.green(backgroundColorLeft);
+                        backgroundB = Color.blue(backgroundColorLeft);
+
+                        if(backgroundR != 0 &&
+                                backgroundG != 0 &&
+                                backgroundB != 0){
+                            transparencyRL = true;
+                            transparencyGL = true;
+                            transparencyBL = true;
+                        }
+
+                    } else if(!transparencyRR && !transparencyGR && !transparencyBR){
+                        backgroundR = Color.red(backgroundColorRight);
+                        backgroundG = Color.green(backgroundColorRight);
+                        backgroundB = Color.blue(backgroundColorRight);
+
+                        if(backgroundR != 0 &&
+                                backgroundG != 0 &&
+                                backgroundB != 0){
+                            transparencyRR = true;
+                            transparencyGR = true;
+                            transparencyBR = true;
+                        }
+                    }
                 } else {
                     transparencyRL = true;
                     transparencyGL = true;

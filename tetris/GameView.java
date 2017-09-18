@@ -332,7 +332,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                     if(time > 100) {
                             if (X < screenW - (shapeBit.getWidth() / offset) &&
                                     X > 0) {
-                                if (Y > fingerDownY && shape.getPosY() < ghost.getPosY()) {
+                                if (Y > fingerDownY && (shape.getPosY() + block.getBlockHeight()) < ghost.getPosY()) {
                                     shapeMovingDown = true;
                                     shape.setShapeMovingDown(shapeMovingDown);
                                     shape.setCanJoinLeft(false);
@@ -676,9 +676,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                         shape.setPlaced(true);
                     }
 
-                    shape = new Shape(myContext, shapeChoice, scaleW, scaleH);
+                    shape = new Shape(myContext, 7, scaleW, scaleH);
 
-                    ghost = new Ghost(myContext, shapeChoice, scaleW, scaleH);
+                    ghost = new Ghost(myContext, 7, scaleW, scaleH);
 
                     int tempArray[] = new int[array.length - 1];
                     boolean past = false;
