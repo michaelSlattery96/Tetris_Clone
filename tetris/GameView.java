@@ -676,9 +676,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
                         shape.setPlaced(true);
                     }
 
-                    shape = new Shape(myContext, 7, scaleW, scaleH);
+                    shape = new Shape(myContext, shapeChoice, scaleW, scaleH);
 
-                    ghost = new Ghost(myContext, 7, scaleW, scaleH);
+                    ghost = new Ghost(myContext, shapeChoice, scaleW, scaleH);
 
                     int tempArray[] = new int[array.length - 1];
                     boolean past = false;
